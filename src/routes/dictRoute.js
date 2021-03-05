@@ -23,9 +23,9 @@ router.post('/words', async (req, resp) => {
 router.get('/words/:index', async (req, resp) => {
 
     Dict.findOne({ key: req.params.index }).then((w) => {
-        res.send(w)
+        resp.send(w)
     }).catch((e) => {
-        res.status(400).send(e);
+        resp.status(400).send(e);
     })
 
 })
