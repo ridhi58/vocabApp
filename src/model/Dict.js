@@ -2,11 +2,13 @@ const mongoose = require('mongoose');
 
 const DictSchema = new mongoose.Schema(
     {
+        Key: { type: Number },
         Word: { type: String },
         Meaning: { type: String },
         Option1: { type: String },
         Option2: { type: String },
-        Option3: { type: String }
+        Option3: { type: String },
+        exp: { type: String }
     }
 )
 
