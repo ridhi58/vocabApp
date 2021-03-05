@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const DictSchema = new mongoose.Schema(
     {
-        Key: { type: Number },
-        Word: { type: String },
-        Meaning: { type: String },
-        Option1: { type: String },
-        Option2: { type: String },
-        Option3: { type: String },
+        key: { type: Number },
+        word: { type: String },
+        meaning: { type: String },
+        option1: { type: String },
+        option2: { type: String },
+        option3: { type: String },
         exp: { type: String }
     }
 )
