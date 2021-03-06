@@ -30,4 +30,21 @@ router.get('/words/:index', async (req, resp) => {
 
 })
 
+
+router.get('/wordsCount/:index', async (req, res) => {
+
+    const ind = req.params.index;
+    var ind1 = parseInt(ind) + 999;
+
+    Dict.find().where("key").gte(ind).lte(ind1).exec()
+        .then((w) => {
+            res.send(w)
+        })
+
+
+
+
+})
+
+
 module.exports = router
