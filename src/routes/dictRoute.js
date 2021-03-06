@@ -15,11 +15,11 @@ router.post('/words', async (req, resp) => {
     }
 })
 
-// router.get('/words', async (req, resp) => {
-//     console.log("hittt")
-//     Dict.find({}).then((a) => { resp.send(a) }).catch((e) => { res.status(400).send(e) })
+router.get('/words', async (req, resp) => {
+    console.log("hittt")
+    Dict.find({}).then((a) => { resp.send(a) }).catch((e) => { res.status(400).send(e) })
 
-// })
+})
 router.get('/words/:index', async (req, resp) => {
 
     Dict.findOne({ key: req.params.index }).then((w) => {
