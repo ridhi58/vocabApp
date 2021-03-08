@@ -17,11 +17,11 @@ export default function AllLevels({ navigation }) {
                     <Text style={styles.textC}>Basic</Text>
                     <Text style={styles.textN}>Nail this section</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.column} onPress={() => { navigation.navigate('Basic') }}>
+                <TouchableOpacity style={styles.column} onPress={() => { navigation.navigate('Levels', { name: "Medium" }) }}>
                     <Text style={styles.textC}>Medium</Text>
                     <Text style={styles.textN}>Nail this section</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.column} onPress={() => { navigation.navigate('Basic') }}>
+                <TouchableOpacity style={styles.column} onPress={() => { navigation.navigate('Levels', { name: 'Advance' }) }}>
                     <Text style={styles.textC}>Advanced</Text>
                     <Text style={styles.textN}>Nail this section</Text>
                 </TouchableOpacity>

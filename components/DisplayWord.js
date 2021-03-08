@@ -18,10 +18,12 @@ export default function DisplayWord({ navigation }) {
   const [ansStyle, setAnsStyle] = useState(true)
 
   const param = navigation.getParam('levelProp') * 1000;
+  const levelName = navigation.getParam('levelName')
 
   useEffect(() => {
     setCurrent(param);
-    axios.get('https://vocabapp-backend.herokuapp.com/wordsCount/' + param).then(function (resp) {
+    console.log("levelName", levelName)
+    axios.get('https://vocabapp-backend.herokuapp.com/' + levelName + '/' + param).then(function (resp) {
       setList(resp.data);
     }).catch((e) => { console.log(e) })
 

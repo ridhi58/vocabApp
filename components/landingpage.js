@@ -8,7 +8,7 @@ export default function Landingpage({ navigation }) {
 
     return (
 
-        <View style={globalStyles.container}>
+        <View style={[globalStyles.container, styles.landing]}>
             <View style={styles.cont}>
                 <Text style={styles.text}>Vocab Mad Easy</Text>
                 <Text style={styles.text1}>Vocabulary Builder</Text>
@@ -52,5 +52,8 @@ const styles = StyleSheet.create({
     },
     sign: {
         marginTop: 250
+    },
+    landing: {
+        backgroundColor: "white"
     }
 });

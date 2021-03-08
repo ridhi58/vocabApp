@@ -26,18 +26,13 @@ export default function Levels({ navigation }) {
 
                     {levelsList.map((l) => {
                         return (
-                            <TouchableOpacity style={styles.column} onPress={() => { navigation.navigate('DisplayWord', { levelProp: l.key }) }}>
+                            <TouchableOpacity style={styles.column} onPress={() => { navigation.navigate('DisplayWord', { levelProp: l.key, levelName: navigation.getParam('name') }) }}>
                                 <Text style={styles.LevelText} > {navigation.getParam('name')} Level {l.key} </Text>
                             </TouchableOpacity>
                         )
                     })}
-
-
-
                 </View>
             </ScrollView>
-
-
         </View>
     )
 }
