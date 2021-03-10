@@ -15,6 +15,8 @@ export default function DisplayWord({ navigation }) {
   const [current, setCurrent] = useState(1000);
   const [show, setShow] = useState(true)
   const [list, setList] = useState([])
+  const [wrongList, setWrongList] = useState([])
+  const [flag, setFlag] = useState(false)
   const [ansStyle, setAnsStyle] = useState(true)
 
   const param = navigation.getParam('levelProp') * 1000;
@@ -24,29 +26,104 @@ export default function DisplayWord({ navigation }) {
     setCurrent(param);
     console.log("levelName", levelName)
     axios.get('https://vocabapp-backend.herokuapp.com/' + levelName + '/' + param).then(function (resp) {
+      console.log("resp", resp.data)
+      var tempList = resp.data;
       setList(resp.data);
+      let wrongArray = tempList.slice();
+      setWrongList(wrongArray)
+
     }).catch((e) => { console.log(e) })
 
   }, [])
-
+  useEffect(() => {
+    console.log("in another use Effect")
+    setCurrent(param)
+  }, [flag])
   const goNext = () => {
 
-    if (current === (list.length + param - 1)) {
-      navigation.navigate("Levels")
+    if (!flag) {
+      if (current === (list.length + param - 1)) {
+        // setCurrent(param)
+        console.log("current", current)
+        console.log("param", param)
+        setFlag(true);
+      }
     }
+
+    if (flag) {
+
+      if (current === (wrongList.length + param - 1)) {
+        navigation.navigate("Levels")
+      }
+    }
+
     setAnscheck("incorrect")
+
     setCurrent(current + 1)
     setShow(true)
   }
 
-  const touch = (ans) => {
-    console.log(ans)
+  const touch = (ans, l) => {
+
     if (ans == meaning) {
       setAnscheck("Correct")
     }
+    else {
+
+
+      var newObj = { ...l };
+      newObj.key = wrongList.length + param;
+      // console.log("new object", newObj);
+
+      wrongList.push(newObj)
+      // setWrongList(t);
+      // console.log("temporary object", wrongList);
+      // console.log("correct", list);
+
+
+    }
     setShow(false)
   }
+  const Iterate = (ele) => {
+    console.log(ele)
 
+    return (
+      <View>
+        {
+          ele.ele.map((a) => {
+
+            return (
+
+              <View style={styles.hideOptions}>
+                {a.key === current ?
+                  <View style={styles.display}>
+
+                    {show ?
+                      <View>
+                        <Text style={styles.optionWord}> {a.word}</Text>
+                        <Shuffle obj={a} />
+                      </View >
+                      :
+                      <View>
+                        <Text style={[styles.anstyling, anscheck === "Correct" ? { backgroundColor: "lightgreen" } : { backgroundColor: "tomato" }]}>{anscheck}</Text>
+                        <Text style={styles.optionWord}> {a.word}</Text>
+                        <Text style={styles.options}> Meaning {a.mean}</Text>
+                        <Text style={styles.options}>Explanation {a.exp}</Text>
+                        <Button title="Next" onPress={goNext}></Button>
+                      </View>
+                    }
+                  </View>
+                  : <Text></Text>
+                }
+              </View>
+            )
+          })
+        }
+      </View>
+    )
+
+
+  }
   const Shuffle = (obj) => {
 
     let arr = []
@@ -65,7 +142,7 @@ export default function DisplayWord({ navigation }) {
     return (arr.map((m) => {
       return (
 
-        <TouchableOpacity style={styles.options} onPress={() => { touch(m) }} >
+        <TouchableOpacity style={styles.options} onPress={() => { touch(m, obj.obj) }} >
           <Text style={styles.option}>{m}</Text>
         </TouchableOpacity>)
     }))
@@ -89,39 +166,10 @@ export default function DisplayWord({ navigation }) {
         <Text style={styles.headerText}> Level {navigation.getParam('levelProp')}</Text>
 
       </View>
+      {/* {console.log("wronglist", wrongList)}
+      {console.log("current", current)} */}
+      {!flag ? <Iterate ele={list} /> : <Iterate ele={wrongList} />}
 
-      {
-        list.map((a) => {
-          return (
-
-            <View style={styles.hideOptions}>
-              {a.key === current ?
-                <View style={styles.display}>
-
-                  {show ?
-                    <View>
-                      <Text style={styles.optionWord}> {a.word}</Text>
-                      <Shuffle obj={a} />
-                    </View >
-                    :
-                    <View>
-                      <Text style={[styles.anstyling, anscheck === "Correct" ? { backgroundColor: "lightgreen" } : { backgroundColor: "tomato" }]}>{anscheck}</Text>
-                      <Text style={styles.optionWord}> {a.word}</Text>
-                      <Text style={styles.options}> Meaning {a.mean}</Text>
-                      <Text style={styles.options}>Explanation {a.exp}</Text>
-                      <Button title="Next" onPress={goNext}></Button>
-                    </View>
-                  }
-                </View>
-                : <Text></Text>
-              }
-
-
-
-            </View>
-          )
-        })
-      }
     </View>
   );
 }
